@@ -17,18 +17,26 @@ public class FavoritesService {
     @Autowired
     UserService userService;
 
-    public List<Favorite> getAllUserFavorites(String username) {
-        return repository.findByUser_Username(username);
+    @Autowired
+    SessionService sessionService;
+
+    public List<Favorite> getAllUserFavorites(String accessKey) {
+        var user = userService.getUserByAccessKey(accessKey);
+        if (user == null) {
+
+        }
+
+        return repository.findByUser_Username(user.getUsername());
     }
 
-    public void addFavoriteToUser(String username, FavoriteRequest request) {
-        var user = userService.getUserByUsername(username);
+    public void addFavoriteToUser(String accessKey, FavoriteRequest request) {
+        var user = userService.getUserByAccessKey(accessKey);
 
         var existingFavorite = repository.findByStationIdAndLineAndDirectionAndUser_Username(
                 request.getStationId(),
                 request.getLine(),
                 request.getDirection(),
-                username
+                user.getUsername()
         );
 
         if (existingFavorite.isPresent()) {

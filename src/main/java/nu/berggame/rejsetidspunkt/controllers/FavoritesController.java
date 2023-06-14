@@ -20,12 +20,12 @@ public class FavoritesController {
     @Autowired
     FavoritesService favoritesService;
 
-    @GetMapping("/{username}")
-    public ResponseEntity<List<FavoriteResponse>> GetAllFavoritesFromUser(@PathVariable String username) {
+    @GetMapping("/{accessKey}")
+    public ResponseEntity<List<FavoriteResponse>> GetAllFavoritesFromUser(@PathVariable String accessKey) {
 
         List<FavoriteResponse> favoriteResponses = new ArrayList<>();
 
-        var favorites = favoritesService.getAllUserFavorites(username);
+        var favorites = favoritesService.getAllUserFavorites(accessKey);
         for (Favorite fav : favorites) {
             favoriteResponses.add(new FavoriteResponse(fav));
         }
@@ -33,10 +33,10 @@ public class FavoritesController {
         return ResponseEntity.ok(favoriteResponses);
     }
 
-    @PostMapping("/{username}")
-    public ResponseEntity addNewFavoriteToUser(@PathVariable String username, @RequestBody FavoriteRequest request) {
+    @PostMapping("/{accessKey}")
+    public ResponseEntity addNewFavoriteToUser(@PathVariable String accessKey, @RequestBody FavoriteRequest request) {
 
-        favoritesService.addFavoriteToUser(username, request);
+        favoritesService.addFavoriteToUser(accessKey, request);
 
         return new ResponseEntity(HttpStatusCode.valueOf(200));
     }

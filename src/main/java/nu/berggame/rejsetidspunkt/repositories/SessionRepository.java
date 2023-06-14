@@ -9,4 +9,6 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
     Optional<Session> findByAccessKeyAndUser_Username(String accessKey, String username);
 
     Optional<Session> findByAccessKeyAndHardwareKey(String accessKey, String hardwareKey);
+
+
 }

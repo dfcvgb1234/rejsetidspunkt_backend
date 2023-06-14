@@ -35,6 +35,12 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        var existingUser = getUserByEmail(user.getEmail());
+
+        if (existingUser != null) {
+            return;
+        }
+
         repository.save(user);
     }
 
@@ -42,6 +48,17 @@ public class UserService {
         var user =repository.findByUsernameAndPassword(request.username, request.userPassword);
 
         return user.isPresent();
+    }
+
+    public User getUserByAccessKey(String accessKey) {
+        var user = repository.findBySessions_AccessKey(accessKey);
+
+        if (user.isPresent()) {
+            return user.get();
+        }
+        else {
+            return null;
+        }
     }
 
 }
