@@ -36,7 +36,7 @@ public class SessionController {
         }
     }
 
-    @PostMapping("/check/{accessKey}")
+    @PostMapping("/check")
     public ResponseEntity checkLogin(@RequestBody SessionCheckRequest request) {
 
         var success = sessionService.checkLogin(request.getAccessKey(), request.getHardwareKey());
