@@ -62,4 +62,11 @@ public class SessionController {
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity logoutUser(@RequestBody SessionCheckRequest request) {
+        sessionService.logoutUser(request);
+
+        return new ResponseEntity(HttpStatusCode.valueOf(200));
+    }
 }

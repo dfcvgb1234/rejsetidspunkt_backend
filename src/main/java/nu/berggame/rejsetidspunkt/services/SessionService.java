@@ -46,6 +46,14 @@ public class SessionService {
         return userService.getUserBySession(request.getAccessKey(), request.getHardwareKey());
     }
 
+    public void logoutUser(SessionCheckRequest request) {
+        var session = repository.findByAccessKeyAndHardwareKey(request.getAccessKey(), request.getHardwareKey());
+
+        if (session.isPresent()) {
+            repository.deleteById(session.get().getId());
+        }
+    }
+
     private String createNewAccessKey(int length) {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
