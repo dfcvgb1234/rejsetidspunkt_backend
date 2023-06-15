@@ -50,7 +50,7 @@ public class SessionController {
         }
     }
 
-    @GetMapping("/user")
+    @PostMapping("/user")
     public ResponseEntity<UserResponse> getUserBySession(@RequestBody SessionCheckRequest request) {
 
         var user = sessionService.getUserBySession(request);
