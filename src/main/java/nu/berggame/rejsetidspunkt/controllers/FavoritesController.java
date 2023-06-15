@@ -20,6 +20,18 @@ public class FavoritesController {
     @Autowired
     FavoritesService favoritesService;
 
+    @GetMapping("/{accessKey}/{id}")
+    public ResponseEntity<FavoriteResponse> GetFavoriteById(@PathVariable String accessKey, @PathVariable int id) {
+        var favorite = favoritesService.getFavoriteById(accessKey, id);
+
+        if (favorite != null) {
+            return ResponseEntity.ok(new FavoriteResponse(favorite));
+        }
+        else {
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+    }
+
     @GetMapping("/{accessKey}")
     public ResponseEntity<List<FavoriteResponse>> GetAllFavoritesFromUser(@PathVariable String accessKey) {
 
@@ -41,9 +53,9 @@ public class FavoritesController {
         return new ResponseEntity(HttpStatusCode.valueOf(200));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity deleteFavoriteFromUser(@PathVariable int id) {
-        favoritesService.removeFavoriteFromUser(id);
+    @DeleteMapping("/{accessKey}/{id}")
+    public ResponseEntity deleteFavoriteFromUser(@PathVariable String accessKey, @PathVariable int id) {
+        favoritesService.removeFavoriteFromUser(accessKey, id);
 
         return new ResponseEntity(HttpStatusCode.valueOf(200));
     }

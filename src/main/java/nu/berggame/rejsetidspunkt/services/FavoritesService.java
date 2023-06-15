@@ -20,6 +20,19 @@ public class FavoritesService {
     @Autowired
     SessionService sessionService;
 
+    public Favorite getFavoriteById(String accessKey, int id) {
+        if (userService.getUserByAccessKey(accessKey) == null) {
+            return null;
+        }
+
+        var favorite = repository.findById(id);
+
+        if (favorite.isPresent()) {
+            return favorite.get();
+        }
+        return null;
+    }
+
     public List<Favorite> getAllUserFavorites(String accessKey) {
         var user = userService.getUserByAccessKey(accessKey);
         if (user == null) {
@@ -49,7 +62,10 @@ public class FavoritesService {
         repository.save(favorite);
     }
 
-    public void removeFavoriteFromUser(int id) {
-        repository.deleteById(id);
+    public void removeFavoriteFromUser(String accessKey, int id) {
+
+        if (userService.getUserByAccessKey(accessKey) != null) {
+            repository.deleteById(id);
+        }
     }
 }
