@@ -2,6 +2,7 @@ package nu.berggame.rejsetidspunkt.controllers;
 
 import nu.berggame.rejsetidspunkt.dto.request.LoginRequest;
 import nu.berggame.rejsetidspunkt.dto.request.SessionCheckRequest;
+import nu.berggame.rejsetidspunkt.dto.response.UserResponse;
 import nu.berggame.rejsetidspunkt.entities.Session;
 import nu.berggame.rejsetidspunkt.repositories.SessionRepository;
 import nu.berggame.rejsetidspunkt.services.SessionService;
@@ -46,6 +47,19 @@ public class SessionController {
         }
         else {
             return new ResponseEntity<>(HttpStatusCode.valueOf(401));
+        }
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<UserResponse> getUserBySession(@RequestBody SessionCheckRequest request) {
+
+        var user = sessionService.getUserBySession(request);
+
+        if (user != null) {
+            return ResponseEntity.ok(new UserResponse(user));
+        }
+        else {
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
     }
 }

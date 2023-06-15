@@ -14,5 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findBySessions_AccessKey(String accessKey);
 
+    Optional<User> findBySessions_AccessKeyAndSessions_HardwareKey(String accessKey, String hardwareKey);
+
 
 }

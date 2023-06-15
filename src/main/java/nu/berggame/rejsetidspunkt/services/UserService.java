@@ -61,4 +61,15 @@ public class UserService {
         }
     }
 
+    public User getUserBySession(String accessKey, String hardwareKey) {
+        var user = repository.findBySessions_AccessKeyAndSessions_HardwareKey(accessKey, hardwareKey);
+
+        if (user.isPresent()) {
+            return user.get();
+        }
+        else {
+            return null;
+        }
+    }
+
 }

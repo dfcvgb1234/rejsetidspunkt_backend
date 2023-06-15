@@ -1,7 +1,9 @@
 package nu.berggame.rejsetidspunkt.services;
 
 import nu.berggame.rejsetidspunkt.dto.request.LoginRequest;
+import nu.berggame.rejsetidspunkt.dto.request.SessionCheckRequest;
 import nu.berggame.rejsetidspunkt.entities.Session;
+import nu.berggame.rejsetidspunkt.entities.User;
 import nu.berggame.rejsetidspunkt.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,10 @@ public class SessionService {
         var session = repository.findByAccessKeyAndHardwareKey(accessKey, hardwareKey);
 
         return session.isPresent();
+    }
+
+    public User getUserBySession(SessionCheckRequest request) {
+        return userService.getUserBySession(request.getAccessKey(), request.getHardwareKey());
     }
 
     private String createNewAccessKey(int length) {
